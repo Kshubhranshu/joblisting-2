@@ -11,6 +11,7 @@ const createJobPost = async (req, res, next) => {
             location,
             duration,
             locationType,
+            skills,
         } = req.body;
 
         if (
@@ -21,7 +22,8 @@ const createJobPost = async (req, res, next) => {
             !salary ||
             !location ||
             !duration ||
-            !locationType
+            !locationType ||
+            !skills
         ) {
             return res.status(400).json({
                 errorMessage: "Bad request",
@@ -37,6 +39,7 @@ const createJobPost = async (req, res, next) => {
             location,
             duration,
             locationType,
+            skills,
         });
 
         await jobDetails.save();
@@ -126,9 +129,17 @@ const getAllJobs = async (req, res, next) => {
         const title = req.query.title || "";
         const skills = req.query.skills;
 
+        let formattedSkills;
+        if (skills) {
+            formattedSkills = skills.split(",");
+        }
+
         const jobList = await Job.find(
-            { title: { $regex: title, $options: "i" } },
-            { title: 1, salary: 1, logoUrl: 1, location: 1 }
+            {
+                title: { $regex: title, $options: "i" },
+                skills: { $in: formattedSkills },
+            },
+            { title: 1, salary: 1, logoUrl: 1, location: 1, skills: 1 }
         );
 
         res.json({ data: jobList });

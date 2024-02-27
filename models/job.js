@@ -34,6 +34,10 @@ const jobSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        skills: {
+            type: Array,
+            required: true,
+        },
     },
     { timestamps: { createdAt: "createdAt", updatedAt: "updatedAt" } }
 );
