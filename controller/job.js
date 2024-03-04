@@ -135,7 +135,13 @@ const getAllJobs = async (req, res, next) => {
             formattedSkills = skills.split(",");
 
             if (formattedSkills) {
-                filter = { skills: { $in: [...filterSkills] } };
+                const regexArray = formattedSkills.map(
+                    (value) => new RegExp(value, "i")
+                );
+
+                filter = {
+                    skills: { $in: regexArray },
+                };
             }
         }
 
