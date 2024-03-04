@@ -5,9 +5,11 @@ const auth = require("./routes/auth");
 const job = require("./routes/job");
 const errorHandler = require("./middleware/errorHandler");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
