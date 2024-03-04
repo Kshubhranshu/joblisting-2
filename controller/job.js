@@ -129,15 +129,20 @@ const getAllJobs = async (req, res, next) => {
         const title = req.query.title || "";
         const skills = req.query.skills;
 
+        let filter = {};
         let formattedSkills;
         if (skills) {
             formattedSkills = skills.split(",");
+
+            if (formattedSkills) {
+                filter = { skills: { $in: [...filterSkills] } };
+            }
         }
 
         const jobList = await Job.find(
             {
                 title: { $regex: title, $options: "i" },
-                skills: { $in: formattedSkills },
+                ...filter,
             },
             { title: 1, salary: 1, logoUrl: 1, location: 1, skills: 1 }
         );
