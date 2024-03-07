@@ -150,7 +150,14 @@ const getAllJobs = async (req, res, next) => {
                 title: { $regex: title, $options: "i" },
                 ...filter,
             },
-            { title: 1, salary: 1, logoUrl: 1, location: 1, skills: 1 }
+            {
+                title: 1,
+                salary: 1,
+                logoUrl: 1,
+                location: 1,
+                skills: 1,
+                companyName: 1,
+            }
         );
 
         res.json({ data: jobList });
